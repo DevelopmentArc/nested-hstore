@@ -103,7 +103,7 @@ module NestedHstore
     # This isn't ideal: how do we know whether each value in an hstore is JSON or a
     # string/integer/etc?
     def decode_json_if_json(value)
-      return value unless value.start_with?('{') && value.end_with?('}')
+      return value unless /^[{\[].*[}\]]$/.match(value)
       ActiveSupport::JSON.decode(value)
     rescue
       value
